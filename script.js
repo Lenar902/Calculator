@@ -47,21 +47,48 @@ window.onload = function() {
 	num0.onclick = () => inputNum(0);
 	comma.onclick = () => inputNum('.');
 	
+	window.onkeydown = (event) => {
+		event.preventDefault();
+		switch (event.keyCode) {
+			case 48: inputNum(0); break;
+			case 49: inputNum(1); break;
+			case 50: inputNum(2); break;
+			case 51: inputNum(3); break;
+			case 52: inputNum(4); break;
+			case 53: inputNum(5); break;
+			case 54: inputNum(6); break;
+			case 55: inputNum(7); break;
+			case 56: inputNum(8); break;
+			case 57: inputNum(9); break;			
+			case 188: inputNum('.'); break;	
+			case 189: inputText.textContent = signs(inputText.textContent); break;			
+			case 190: inputNum('.'); break;			
+			default: console.log('Error type');
+		}		
+	}
+
+	
+	function signs(str) {
+		let sg = str.indexOf("-") === -1;
+		return sg ? '-' + str : str.substring(1);	
+	}
+	
 	function inputNum(nums) {
-		let isComma = inputText.value.indexOf(".") === -1;
-		if (inputText.value[0] == '0' && nums == 0 && isComma) {
+		
+		let isComma = inputText.textContent.indexOf(".") === -1;
+		if (inputText.textContent[0] == '0' && nums == 0 && isComma) {
 			console.log('error 0');
 		}		
-		else if (inputText.value[0] == '0' && !(nums == '.') && isComma) {			
-			inputText.value = nums;
+		else if (inputText.textContent[0] == '0' && !(nums == '.') && isComma) {			
+			inputText.textContent = nums;
 		}
 		else if (nums == '.' && !isComma) {
 			console.log('error .');
 		}
 		else {
-			inputText.value += nums;
-		}
+			inputText.textContent += nums;
+		}		
 	}
-
-	
 }
+
+

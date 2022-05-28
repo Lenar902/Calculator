@@ -81,10 +81,11 @@
 .section-input__text {
 	width: 100%;	
     height: 100%;    
-    text-align: right;
+    text-align: right;	
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
+    font-size: 24px;
     padding: 5px;
+	line-height: 1.2;
 	background: rgb(166,166,168);
 	background: -moz-linear-gradient(175deg, rgba(166,166,168,1) 0%, rgba(231,231,238,1) 50%, rgba(240,245,245,1) 100%);
 	background: -webkit-linear-gradient(175deg, rgba(166,166,168,1) 0%, rgba(231,231,238,1) 50%, rgba(240,245,245,1) 100%);

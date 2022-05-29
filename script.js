@@ -1,93 +1,208 @@
 window.onload = function() {
+	let ch = '';
+	let a1 = 0;
+	let a2 = 0;
+	let click_result = false;
+	let btnbool = false;
+	
+	let ms = 0;
+	
 	let inputText = document.querySelector("#inputText");
 	
-	let mclear = document.querySelector("#mclear");
-	let mread = document.querySelector("#mread");
-	let msave = document.querySelector("#msave");
-	let madd = document.querySelector("#madd");
-	let msub = document.querySelector("#msub");
+	const mclear = document.querySelector("#mclear");
+	const mread = document.querySelector("#mread");
+	const msave = document.querySelector("#msave");
+	const madd = document.querySelector("#madd");
+	const msub = document.querySelector("#msub");
 	
-    let backspace = document.querySelector("#backspace");
-	let clearentry = document.querySelector("#clearentry");
-	let clear = document.querySelector("#clear");
-	let sign = document.querySelector("#sign");
-	let sqroot = document.querySelector("#sqrt");
+    const backspace = document.querySelector("#backspace");
+	const clearentry = document.querySelector("#clearentry");
+	const clear = document.querySelector("#clear");
+	const sign = document.querySelector("#sign");
+	const sqroot = document.querySelector("#sqrt");	
 	
-	let num7 = document.querySelector("#num7");
-	let num8 = document.querySelector("#num8");
-	let num9 = document.querySelector("#num9");
-	let div = document.querySelector("#div");
-	let percent = document.querySelector("#percent");
+	const num7 = document.querySelector("#num7");
+	const num8 = document.querySelector("#num8");
+	const num9 = document.querySelector("#num9");
+	const div = document.querySelector("#div");
+	const percent = document.querySelector("#percent");
     
-    let num4 = document.querySelector("#num4");
-	let num5 = document.querySelector("#num5");
-	let num6 = document.querySelector("#num6");
-	let mul = document.querySelector("#mul");
-	let divreverse = document.querySelector("#divreverse");
+    const num4 = document.querySelector("#num4");
+	const num5 = document.querySelector("#num5");
+	const num6 = document.querySelector("#num6");
+	const mul = document.querySelector("#mul");
+	const divreverse = document.querySelector("#divreverse");
 	
-    let num1 = document.querySelector("#num1");
-	let num2 = document.querySelector("#num2");
-	let num3 = document.querySelector("#num3");
-	let sub = document.querySelector("#sub");
-	let equally = document.querySelector("#equally");
+    const num1 = document.querySelector("#num1");
+	const num2 = document.querySelector("#num2");
+	const num3 = document.querySelector("#num3");
+	const sub = document.querySelector("#sub");
+	const equally = document.querySelector("#equally");
 	
-	let num0 = document.querySelector("#num0");
-	let comma = document.querySelector("#comma");
-	let add = document.querySelector("#add");
-
-	num1.onclick = () => inputNum(1);
-	num2.onclick = () => inputNum(2);
-	num3.onclick = () => inputNum(3);
-	num4.onclick = () => inputNum(4);
-	num5.onclick = () => inputNum(5);
-	num6.onclick = () => inputNum(6);
-	num7.onclick = () => inputNum(7);
-	num8.onclick = () => inputNum(8);
-	num9.onclick = () => inputNum(9);
-	num0.onclick = () => inputNum(0);
-	comma.onclick = () => inputNum('.');
+	const num0 = document.querySelector("#num0");
+	const comma = document.querySelector("#comma");
+	const add = document.querySelector("#add");
+	
+	const numbersBtn = [num0, num1, num2, num3, num4, num5, num6, num7, num8, num9];
+	for (let i = 0; i < numbersBtn.length; i++) {
+		numbersBtn[i].onclick = () => {
+			inputText.textContent = inputNum(i, inputText.textContent, btnbool);
+			btnbool = false;
+		}
+	}	
+	
+	comma.onclick = () => inputText.textContent = isPoint(inputText.textContent);
+	
 	
 	window.onkeydown = (event) => {
 		event.preventDefault();
-		switch (event.keyCode) {
-			case 48: inputNum(0); break;
-			case 49: inputNum(1); break;
-			case 50: inputNum(2); break;
-			case 51: inputNum(3); break;
-			case 52: inputNum(4); break;
-			case 53: inputNum(5); break;
-			case 54: inputNum(6); break;
-			case 55: inputNum(7); break;
-			case 56: inputNum(8); break;
-			case 57: inputNum(9); break;			
-			case 188: inputNum('.'); break;	
-			case 189: inputText.textContent = signs(inputText.textContent); break;			
-			case 190: inputNum('.'); break;			
-			default: console.log('Error type');
-		}		
+		if (event.keyCode >= 48 && event.keyCode <= 57) {
+			inputText.textContent = inputNum(event.keyCode - 48, inputText.textContent, btnbool);
+			btnbool = false;
+		}
+		else if (event.keyCode == 188 || event.keyCode == 190) {
+			inputText.textContent = isPoint(inputText.textContent, btnbool);
+			btnbool = false;
+		}
+		else if (event.keyCode == 189) {
+			inputText.textContent = signs(inputText.textContent, btnbool);
+			btnbool = false;
+		}
+		else {
+			console.log('Error type');
+		}			
+	}
+	
+	add.onclick = function() {
+		scanf();	
+		ch = '+';
 	}
 
+	sub.onclick = function() {
+		scanf();	
+		ch = '-';
+	}
+
+	mul.onclick = function() {
+		scanf();	
+		ch = '*';
+	}
+
+	div.onclick = function() {
+		scanf();	
+		ch = '/';
+	}
+	
+	equally.onclick = function() {			
+		if (click_result) {
+			a2 = inputText.textContent;
+			if (isFinite(a2)) {
+				a2 = parseFloat(a2);
+			}
+			else alert("Вы ввели не число!");
+		}
+		switch (ch) {
+			case '+': a1 = a1 + a2; break;
+			case '-': a1 = a1 - a2; break;
+			case '*': a1 = a1 * a2; break;
+			case '/': a1 = a1 / a2; break;			
+		}		
+		inputText.textContent = a1;
+		click_result = false;
+		btnbool = false;
+	}
+	
+	percent.onclick = function() {
+		inputText.textContent = inputText.textContent / 100 * a1;
+	}	
+	
+	backspace.onclick = function() {
+		inputText.textContent = backsp(inputText.textContent);
+	}
+	
+	clearentry.onclick = function() {
+		inputText.textContent = 0;
+	}
+	
+	clear.onclick = function() {
+		inputText.textContent = 0;
+		click_result = false;
+		btnbool = false;
+		a1 = 0;
+		a2 = 0;
+	}
+	
+	sign.onclick = function() {
+		inputText.textContent = signs(inputText.textContent);
+	}
+	
+	sqroot.onclick = function() {
+		inputText.textContent = Math.sqrt(parseFloat(inputText.textContent));
+	}
+	
+	divreverse.onclick = function() {
+		if (inputText.textContent != 0) {
+			inputText.textContent = 1 / parseFloat(inputText.textContent);	
+		}	
+		else {
+			alert('Деление на нуль');
+		}	
+	}
+	
+	mclear.onclick = function() {
+		ms = 0;
+	}
+	
+	mread.onclick = function() {
+		inputText.textContent = ms;
+	}
+	
+	msave.onclick = function() {
+		ms = parseFloat(inputText.textContent);
+	}
+	
+	madd.onclick = function() {
+		ms += parseFloat(inputText.textContent)
+	}
+	
+	msub.onclick = function() {
+		ms -= parseFloat(inputText.textContent);
+	}	
+	
 	
 	function signs(str) {
 		let sg = str.indexOf("-") === -1;
 		return sg ? '-' + str : str.substring(1);	
 	}
 	
-	function inputNum(nums) {
-		
-		let isComma = inputText.textContent.indexOf(".") === -1;
-		if (inputText.textContent[0] == '0' && nums == 0 && isComma) {
-			console.log('error 0');
-		}		
-		else if (inputText.textContent[0] == '0' && !(nums == '.') && isComma) {			
-			inputText.textContent = nums;
+	function backsp(str) {
+		return str.length == 1 ? str = 0 : str.substring(0, str.length - 1);
+	}
+	
+	function isPoint(str) {
+		let isP = str.indexOf(".") === -1;
+		return isP ? str += '.' : str += '';		
+	}
+	
+	function inputNum(nums, fromstr, isOtherNum) {	
+		let isP = fromstr.indexOf(".") === -1;	
+		return ((fromstr[0] == '0' && isP)||(isOtherNum)) ? fromstr = nums : fromstr += nums;
+	}
+	
+	
+	function scanf() {
+		try {	
+			a1 = inputText.textContent;
+			if (isFinite(a1)) {
+				a1 = parseFloat(a1);				
+				click_result = true;	
+				btnbool = true;
+			}
+			else alert("Вы ввели не число!");
 		}
-		else if (nums == '.' && !isComma) {
-			console.log('error .');
+		catch (exc) {
+			alert("Ошибка: " + exc);
 		}
-		else {
-			inputText.textContent += nums;
-		}		
 	}
 }
 

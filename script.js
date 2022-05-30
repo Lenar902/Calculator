@@ -7,7 +7,7 @@ window.onload = function() {
 	
 	let ms = 0;
 	
-	let inputText = document.querySelector("#inputNumber");
+	let inputNumber = document.querySelector("#inputNumber");
 	let inputChar = document.querySelector("#inputChar");
 	
 	const mclear = document.querySelector("#mclear");
@@ -21,6 +21,12 @@ window.onload = function() {
 	const clear = document.querySelector("#clear");
 	const sign = document.querySelector("#sign");
 	const sqroot = document.querySelector("#sqrt");	
+	
+	const sinus = document.querySelector("#sinus");
+	const cosinus = document.querySelector("#cosinus");
+	const tangens = document.querySelector("#tangens");
+	const sqr = document.querySelector("#sqr");
+	const cubsqrt = document.querySelector("#cubsqrt");
 	
 	const num7 = document.querySelector("#num7");
 	const num8 = document.querySelector("#num8");
@@ -47,26 +53,30 @@ window.onload = function() {
 	const numbersBtn = [num0, num1, num2, num3, num4, num5, num6, num7, num8, num9];
 	for (let i = 0; i < numbersBtn.length; i++) {
 		numbersBtn[i].onclick = () => {
-			inputText.textContent = inputNum(i, inputText.textContent, btnbool);
-			btnbool = false;
+			if (inputNumber.textContent.length < 20) {
+				inputNumber.textContent = inputNum(i, inputNumber.textContent, btnbool);
+				btnbool = false;
+			}
 		}
 	}	
 	
-	comma.onclick = () => inputText.textContent = isPoint(inputText.textContent);
+	comma.onclick = () => inputNumber.textContent = isPoint(inputNumber.textContent);
 	
 	
 	window.onkeydown = (event) => {
 		event.preventDefault();
 		if (event.keyCode >= 48 && event.keyCode <= 57) {
-			inputText.textContent = inputNum(event.keyCode - 48, inputText.textContent, btnbool);
-			btnbool = false;
+			if (inputNumber.textContent.length < 20) {
+				inputNumber.textContent = inputNum(event.keyCode - 48, inputNumber.textContent, btnbool);
+				btnbool = false;
+			}
 		}
 		else if (event.keyCode == 188 || event.keyCode == 190) {
-			inputText.textContent = isPoint(inputText.textContent, btnbool);
+			inputNumber.textContent = isPoint(inputNumber.textContent, btnbool);
 			btnbool = false;
 		}
 		else if (event.keyCode == 189) {
-			inputText.textContent = signs(inputText.textContent, btnbool);
+			inputNumber.textContent = signs(inputNumber.textContent, btnbool);
 			btnbool = false;
 		}
 		else {
@@ -100,7 +110,7 @@ window.onload = function() {
 	
 	equally.onclick = function() {			
 		if (click_result) {
-			a2 = inputText.textContent;
+			a2 = inputNumber.textContent;
 			if (isFinite(a2)) {
 				a2 = parseFloat(a2);
 			}
@@ -112,14 +122,14 @@ window.onload = function() {
 			case '*': a1 = a1 * a2; break;
 			case '/': a1 = a1 / a2; break;			
 		}		
-		inputText.textContent = a1;		
+		inputNumber.textContent = a1;		
 		click_result = false;
 		btnbool = false;
 	}
 	
 	divreverse.onclick = function() {
-		if (inputText.textContent != 0) {
-			inputText.textContent = 1 / parseFloat(inputText.textContent);	
+		if (inputNumber.textContent != 0) {
+			inputNumber.textContent = 1 / parseFloat(inputNumber.textContent);	
 			inputChar.textContent = '1/x';
 		}	
 		else {
@@ -128,23 +138,23 @@ window.onload = function() {
 	}
 	
 	percent.onclick = function() {
-		inputText.textContent = inputText.textContent / 100 * a1;
+		inputNumber.textContent = inputNumber.textContent / 100 * a1;
 		inputChar.textContent = '%';
 	}	
 	
 	backspace.onclick = function() {
-		inputText.textContent = backsp(inputText.textContent);
+		inputNumber.textContent = backsp(inputNumber.textContent);
 		inputChar.textContent = '←';
 	}
 	
 	clearentry.onclick = function() {
-		inputText.textContent = 0;
+		inputNumber.textContent = 0;
 		inputChar.textContent = 'CE';
 	}
 	
 	clear.onclick = function() {
 		inputChar.textContent = '';
-		inputText.textContent = 0;
+		inputNumber.textContent = 0;
 		click_result = false;
 		btnbool = false;
 		a1 = 0;
@@ -152,12 +162,12 @@ window.onload = function() {
 	}
 	
 	sign.onclick = function() {
-		inputText.textContent = signs(inputText.textContent);
+		inputNumber.textContent = signs(inputNumber.textContent);
 		inputChar.textContent = '±';
 	}
 	
 	sqroot.onclick = function() {
-		inputText.textContent = Math.sqrt(parseFloat(inputText.textContent));
+		inputNumber.textContent = Math.sqrt(parseFloat(inputNumber.textContent));
 		inputChar.textContent = '√';
 	}	
 	
@@ -167,24 +177,49 @@ window.onload = function() {
 	}
 	
 	mread.onclick = function() {
-		inputText.textContent = ms;
+		inputNumber.textContent = ms;
 		inputChar.textContent = 'MR';
 	}
 	
 	msave.onclick = function() {
-		ms = parseFloat(inputText.textContent);
+		ms = parseFloat(inputNumber.textContent);
 		inputChar.textContent = 'MS';
 	}
 	
 	madd.onclick = function() {
-		ms += parseFloat(inputText.textContent);
+		ms += parseFloat(inputNumber.textContent);
 		inputChar.textContent = 'M+';
 	}
 	
 	msub.onclick = function() {
-		ms -= parseFloat(inputText.textContent);
+		ms -= parseFloat(inputNumber.textContent);
 		inputChar.textContent = 'M-';
 	}	
+	
+	sinus.onclick = function() {
+		inputNumber.textContent = Math.sin(radindeg(inputNumber.textContent));
+		inputChar.textContent = 'sin';
+	}
+	
+	cosinus.onclick = function() {
+		inputNumber.textContent = Math.cos(radindeg(inputNumber.textContent));
+		inputChar.textContent = 'cos';
+	}
+	
+	tangens.onclick = function() {
+		inputNumber.textContent = Math.tan(radindeg(inputNumber.textContent));
+		inputChar.textContent = 'tg';
+	}
+	
+	sqr.onclick = function() {
+		inputNumber.textContent = Math.pow(inputNumber.textContent, 2);
+		inputChar.textContent = 'sqr';
+	}
+	
+	cubsqrt.onclick = function() {
+		inputNumber.textContent = Math.pow(inputNumber.textContent, 1/3);
+		inputChar.textContent = '3√';
+	}
 	
 	
 	function signs(str) {
@@ -209,7 +244,7 @@ window.onload = function() {
 	
 	function scanf() {
 		try {	
-			a1 = inputText.textContent;
+			a1 = inputNumber.textContent;
 			if (isFinite(a1)) {
 				a1 = parseFloat(a1);				
 				click_result = true;	
@@ -220,6 +255,10 @@ window.onload = function() {
 		catch (exc) {
 			alert("Ошибка: " + exc);
 		}
+	}
+	
+	function radindeg(angle) {
+		return angle * Math.PI / 180;
 	}
 }
 

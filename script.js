@@ -7,7 +7,8 @@ window.onload = function() {
 	
 	let ms = 0;
 	
-	let inputText = document.querySelector("#inputText");
+	let inputText = document.querySelector("#inputNumber");
+	let inputChar = document.querySelector("#inputChar");
 	
 	const mclear = document.querySelector("#mclear");
 	const mread = document.querySelector("#mread");
@@ -76,21 +77,25 @@ window.onload = function() {
 	add.onclick = function() {
 		scanf();	
 		ch = '+';
+		inputChar.textContent = ch;
 	}
 
 	sub.onclick = function() {
 		scanf();	
 		ch = '-';
+		inputChar.textContent = ch;
 	}
 
 	mul.onclick = function() {
 		scanf();	
 		ch = '*';
+		inputChar.textContent = ch;
 	}
 
 	div.onclick = function() {
 		scanf();	
 		ch = '/';
+		inputChar.textContent = ch;
 	}
 	
 	equally.onclick = function() {			
@@ -107,24 +112,38 @@ window.onload = function() {
 			case '*': a1 = a1 * a2; break;
 			case '/': a1 = a1 / a2; break;			
 		}		
-		inputText.textContent = a1;
+		inputText.textContent = a1;		
 		click_result = false;
 		btnbool = false;
 	}
 	
+	divreverse.onclick = function() {
+		if (inputText.textContent != 0) {
+			inputText.textContent = 1 / parseFloat(inputText.textContent);	
+			inputChar.textContent = '1/x';
+		}	
+		else {
+			alert('Деление на нуль');
+		}	
+	}
+	
 	percent.onclick = function() {
 		inputText.textContent = inputText.textContent / 100 * a1;
+		inputChar.textContent = '%';
 	}	
 	
 	backspace.onclick = function() {
 		inputText.textContent = backsp(inputText.textContent);
+		inputChar.textContent = '←';
 	}
 	
 	clearentry.onclick = function() {
 		inputText.textContent = 0;
+		inputChar.textContent = 'CE';
 	}
 	
 	clear.onclick = function() {
+		inputChar.textContent = '';
 		inputText.textContent = 0;
 		click_result = false;
 		btnbool = false;
@@ -134,39 +153,37 @@ window.onload = function() {
 	
 	sign.onclick = function() {
 		inputText.textContent = signs(inputText.textContent);
+		inputChar.textContent = '±';
 	}
 	
 	sqroot.onclick = function() {
 		inputText.textContent = Math.sqrt(parseFloat(inputText.textContent));
-	}
-	
-	divreverse.onclick = function() {
-		if (inputText.textContent != 0) {
-			inputText.textContent = 1 / parseFloat(inputText.textContent);	
-		}	
-		else {
-			alert('Деление на нуль');
-		}	
-	}
+		inputChar.textContent = '√';
+	}	
 	
 	mclear.onclick = function() {
 		ms = 0;
+		inputChar.textContent = 'MC';
 	}
 	
 	mread.onclick = function() {
 		inputText.textContent = ms;
+		inputChar.textContent = 'MR';
 	}
 	
 	msave.onclick = function() {
 		ms = parseFloat(inputText.textContent);
+		inputChar.textContent = 'MS';
 	}
 	
 	madd.onclick = function() {
-		ms += parseFloat(inputText.textContent)
+		ms += parseFloat(inputText.textContent);
+		inputChar.textContent = 'M+';
 	}
 	
 	msub.onclick = function() {
 		ms -= parseFloat(inputText.textContent);
+		inputChar.textContent = 'M-';
 	}	
 	
 	
